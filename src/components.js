@@ -1,4 +1,5 @@
 var Component = function(el) {
+	//add extended functions
 	el.data={
 		element:el,
 		get:function(name,def){
@@ -34,6 +35,16 @@ var Component = function(el) {
 	}
 	return el;
 };
+Component.RegisterFn=function(ref,name,fn){
+	for(var i in ref) {
+		if(ref[i] instanceof HTMLElement){
+			ref[i][name]=fn;
+		}else{Component.RegisterFn(ref[i],name,fn);}
+	}
+}
+Component.Extend=function(name,fn){
+	Component.RegisterFn(Components,name,fn);
+}
 var Components = {};
 (function() {
 	var Core = {
